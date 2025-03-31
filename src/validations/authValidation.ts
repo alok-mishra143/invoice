@@ -56,3 +56,12 @@ export const addCustomerValidation = z.object({
   phone: phone,
   address: address,
 });
+
+export const addSalesValidation = z.object({
+  customerId: z.string().min(1, { message: "Customer ID is required" }),
+});
+
+export const addSaleItemValidation = z.object({
+  productId: z.string().min(1, { message: "Product ID is required" }),
+  quantity: saleQuantity,
+});

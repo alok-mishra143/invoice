@@ -10,7 +10,7 @@
     "typescript": "^5"
   },
   "scripts": {
-    "dev": "bun --watch index.js",
+    "dev": "bun --watch index.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
