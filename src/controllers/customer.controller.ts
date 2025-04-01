@@ -109,3 +109,31 @@ export const deleteCustomer = async (
     message: "Customer deleted successfully",
   });
 };
+
+export const getAllCustomer = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id: userId } = req.user;
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+    const totalCustomers = await db.customer.count({
+      where: { userId },
+    });
+    const customers = await db.customer.findMany({
+      where: { userId },
+      skip: offset,
+      take: Number(limit),
+    });
+    res.status(200).json({
+      message: "Customers fetched successfully",
+      customers,
+      totalCustomers,
+      totalPages: Math.ceil(totalCustomers / Number(limit)),
+    });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

@@ -235,3 +235,32 @@ export const deleteSale = async (
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getSales = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id: userId } = req.user;
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+
+    const sales = await db.sale.findMany({
+      where: { userId },
+      skip: offset,
+      take: Number(limit),
+      include: {
+        items: true,
+        customer: true,
+      },
+    });
+
+    const totalSales = await db.sale.count();
+
+    res.status(200).json({
+      sales,
+      totalPages: Math.ceil(totalSales / Number(limit)),
+      currentPage: Number(page),
+    });
+  } catch (error) {
+    console.error("Error fetching sales:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
