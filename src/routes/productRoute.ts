@@ -8,7 +8,7 @@ import {
 
 const productRouter = Router();
 
-productRouter.post("/add", addProduct);
+productRouter.post("/", addProduct);
 productRouter.patch("/:id", editProduct);
 productRouter.delete("/:id", deleteProduct);
 productRouter.get("/", getAllProducts);

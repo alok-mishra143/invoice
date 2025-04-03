@@ -13,7 +13,6 @@ export const middleware = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log("Middleware called");
   const token = req.cookies?.token || req.headers?.token;
 
   if (!token) {

@@ -111,10 +111,12 @@ export const deleteProduct = async (
   });
 };
 
-export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
+export const getAllProducts = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
-    const { id:userId } = req.user;
-   
+    const { id: userId } = req.user;
 
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
@@ -141,9 +143,8 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
       message: "Products retrieved successfully",
       products,
       pagination: {
-        totalProducts,
-        totalPages: Math.ceil(totalProducts / limit),
-        currentPage: page,
+        total: totalProducts,
+        page: page,
         limit,
       },
     });
@@ -152,4 +153,3 @@ export const getAllProducts = async (req: Request, res: Response): Promise<void>
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
